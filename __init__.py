@@ -1,20 +1,13 @@
-
-
-from final_assignment.game import Game
-from final_assignment.guess import Guess
-from final_assignment.stringDatabase import StringDatabase
+from comparative_1.guess import guess
+from comparative_1.stringDatabase import stringDatabase
 
 
 def main():
     print("** The great guessing game **")
-    s = StringDatabase()
-    g = Game()
-    m = Guess(s, g)
-    s.objectGuess = m
-    m.database = s
-    g.objectString = s
-    m.readfile()
-    m.calling(s, g)
 
+    stringDatabaseObject = stringDatabase()
+    guessObject =guess()
+    stringDatabaseObject.readfile()
+    guessObject.calling()
 
 main()

@@ -1,54 +1,116 @@
-import random
 
 
-class Guess:
-    current_word = ""
-    database = ""
-    last_guess = []
+from comparative_1.stringDatabase import stringDatabase
+from comparative_1.game import *
 
-    def __init__(self,s,g):
-        self.s = s
-        self.g = g
+class guess:
 
-    def readfile(self):
-        with open('four_letters.txt') as f:
-            lines = f.read().split(" ")
-        lines = [word.replace('\n', '') for word in lines]
-        #print(lines)
-        self.current_word = random.choice(lines)
-        print(self.current_word)
+    a= stringDatabase()
+    word = a.readfile()
+    init_word = '----'
+    guess_word = ''
+    guess_letter = ''
+    word_list = []
+    no =0
+    countGuess = 0
+    countLetter = 0
+    score = 0
+    final_list = []
+    finalle = []
 
-    word = "----"
-    def calling(self, s, g):
+    def calling(self):
+        #self.word = self.a.readfile()
         print(self.word)
-        command = input("g = guess, t = tell me, l for a letter, and q to quit")
+        command = input("g = guess, t = tell me, l for a letter, and q to quit : ")
         gequals = "g"
         tequals = "t"
         lequals = "l"
         qequals = "q"
         if command == gequals:
-            gw = input()
-            guessing = s.guessing(self.current_word, gw, s, g)
-            #self.last_guess = self.database.final_guess
-            print(guessing)
+            self.guess_word = input()
+            self.final_list.append(self.guessing_word(self.word, self.guess_word))
+            print(self.final_list)
+            #self.countLetter = 0
+            #self.countGuess = 0
+            self.calling()
         elif command == tequals:
-            s.tellme(self.current_word)
+            self.final_list.append(self.tell_me(self.word))
+            print(self.final_list)
+            self.calling()
         elif command == lequals:
-            gl = input()
-            self.word = s.letters(self.current_word,gl,self.word, s, g)
-            #print(self.word)
-            if (self.word != self.current_word):
-                self.calling(s, g)
+            self.guess_letter = input()
+            self.final_list.append(self.guessing_letter(self.word, self.guess_letter))
+            print(self.final_list)
+            #self.countLetter = 0
+            #self.countGuess = 0
+            self.calling()
+        elif command == qequals:
+            z = 0
+            self.finalle = list(filter(None.__ne__, self.final_list))
+            return self.finalle
+        else:
+            print("wrong input, enter again")
+            self.calling()
+
+    def guessing_word(self, w, gw):
+
+        if (w == gw):
+
+            print("this is true, you are a scholar")
+            self.no = self.no + 1
+            self.word_list = [self.no, w, 'success', self.countGuess, self.countLetter]
+
+            self.init_word = '----'
+            self.word = self.a.readfile()
+            #self.countGuess = 0
+            #self.countLetter = 0
+            return self.word_list
+
+        else:
+            print("wrong")
+            self.countGuess = self.countGuess + 1
+            self.score = self.score * 0.90
+
+    def guessing_letter(self, w, gl):
+        w_len = len(self.init_word)
+        x = 0
+        wo_list = list(self.init_word)
+        if gl in w:
+            while x < w_len:
+                if w[x] == gl:
+                    #index = cw.index(gl)
+                    #print(index)
+                    wo_list[x] = gl
+                #else:
+                    #self.countLetter = self.countLetter + 1
+                x = x + 1
+            self.init_word = ''.join(wo_list)
+            print(self.init_word)
+            if (self.init_word != w):
+                self.calling()
             else:
                 print("great you are a scholar")
-                self.readfile()
-                self.word = "----"
-                s.countLetter = 0
-                s.countGuess = 0
-                self.calling(s, g)
-                final_letter = (s.word_2, "success", s.countGuess, s.countLetter)
-        elif command == qequals:
-            s.quitgame()
+                self.no = self.no + 1
+                self.word_list = [self.no, w, 'success', self.countGuess, self.countLetter]
+                self.init_word = '----'
+                self.countLetter = 0
+                self.countGuess = 0
+                #self.score = self.score + 1
+                self.word = self.a.readfile()
+                return self.word_list
+
         else:
-            print("enter correct input")
-            self.calling(s,g)
+            self.countLetter = self.countLetter + 1;
+            print("number of wrong letters: ", self.countLetter)
+            self.calling()
+
+    def tell_me(self,w):
+        print("the word is : ", w)
+        self.no = self.no + 1
+        self.word_list = [self.no, w, 'Gave up', self.countGuess, self.countLetter]
+        self.countGuess = 0
+        self.countLetter = 0
+        self.word = self.a.readfile()
+        return  self.word_list
+
+
