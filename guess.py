@@ -3,7 +3,7 @@ import pickle
 from comparative_1.stringDatabase import stringDatabase
 from comparative_1.game import *
 
-class guess:
+class guess(object):
 
     a= stringDatabase()
     word = a.readfile()
@@ -25,8 +25,11 @@ class guess:
 
     dict = {'a':8.17,'b':1.49,'c':2.78,'d':4.25,'e':12.70,'f':2.23,'g':2.02,'h':6.09,'i':6.97,'j':0.15,'k':0.77,'l':4.03,'m':2.41,'n':6.75,'o':7.51,'p':1.93,'q':0.10,'r':5.99,'s':6.33,'t':9.06,'u':2.76,'v':0.98,'w':2.36,'x':0.15,'y':1.97,'z':0.07 }
 
+    # def __init__(self):
+    #     self.word = self.a.readfile()
 
     def calling(self):
+
         #self.word = self.a.readfile()
         print(self.word)
         command = input("g = guess, t = tell me, l for a letter, and q to quit : ")
@@ -56,9 +59,12 @@ class guess:
             z = 0
             self.finalle = list(filter(None.__ne__, self.final_list))
             print(self.finalle)
-            with open('info.pkl','rb')as i:
-                for gammer in self.game_list:
-                    print(gammer.game, gammer.word, gammer.status, gammer.guess, gammer.letter, gammer.score)
+            return self.finalle
+            #with open('info.pkl','rb')as i:
+            #    for gammer in self.game_list:
+            #        print("game\tword\tstatus\tBad Guesses\tMissed Letters\tscore")
+            #        print("----\t----\t------\t-----------\t--------------\t-----")
+            #        print(gammer.game,"\t",gammer.word,"\t", gammer.status,"\t", gammer.guess,"\t", gammer.letter,"\t", gammer.score)
         else:
             print("wrong input, enter again")
             self.calling()
@@ -81,12 +87,13 @@ class guess:
             while i <= self.countGuess:
                 self.score = self.score * 0.9
                 i = i + 1
-            print(self.score)
-            #self.word_list = [self.no, w, 'success', self.countGuess, self.countLetter]
-            with open('info.pkl','wb') as o:
+            #print(self.score)
+            self.word_list = [self.no, w, 'success', self.countGuess, self.countLetter, self.score]
 
-                self.game_list.append(game(self.no, w, 'success', self.countGuess, self.countLetter, self.score))
-                pickle.dump(game,o,pickle.HIGHEST_PROTOCOL)
+            #with open('info.pkl','wb') as o:
+
+            #    self.game_list.append(game(self.no, w, 'success', self.countGuess, self.countLetter, self.score))
+            #    pickle.dump(game,o,pickle.HIGHEST_PROTOCOL)
             self.init_word = '----'
             self.score = 0
             self.totalGuess = 0
@@ -97,7 +104,7 @@ class guess:
             self.word = self.a.readfile()
             #self.countGuess = 0
             #self.countLetter = 0
-            #return self.word_list
+            return self.word_list
 
         else:
             print("wrong")
@@ -135,10 +142,10 @@ class guess:
                 while i <= self.countLetter:
                     self.score = self.score * 0.9
                     i = i+1
-                #self.word_list = [self.no, w, 'success', self.countGuess, self.countLetter]
-                with open('info.pkl', 'wb') as o:
-                    self.game_list.append(game(self.no, w, 'success', self.countGuess, self.countLetter, self.score))
-                    pickle.dump(game, o, pickle.HIGHEST_PROTOCOL)
+                self.word_list = [self.no, w, 'success', self.countGuess, self.countLetter, self.score]
+                # with open('info.pkl', 'wb') as o:
+                #     self.game_list.append(game(self.no, w, 'success', self.countGuess, self.countLetter, self.score))
+                #     pickle.dump(game, o, pickle.HIGHEST_PROTOCOL)
 
                 self.init_word = '----'
                 self.unknownLetter = []
@@ -169,11 +176,11 @@ class guess:
                 self.score = self.score - self.dict.get(w[i])
             i = i + 1
 
-        #self.word_list = [self.no, w, 'Gave up', self.countGuess, self.countLetter]
-        with open('info.pkl', 'wb') as o:
-            self.game_list.append(game(self.no, w, 'success', self.countGuess, self.countLetter, self.score))
-            pickle.dump(game, o, pickle.HIGHEST_PROTOCOL)
+        self.word_list = [self.no, w, 'Gave up', self.countGuess, self.countLetter, self.score]
         self.countGuess = 0
         self.countLetter = 0
+        # with open('info.pkl', 'wb') as o:
+        #     self.game_list.append(game(self.no, w, 'success', self.countGuess, self.countLetter, self.score))
+        #     pickle.dump(game, o, pickle.HIGHEST_PROTOCOL)
         self.word = self.a.readfile()
-        return  self.word_list
+        return self.word_list
