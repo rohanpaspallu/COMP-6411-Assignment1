@@ -1,9 +1,10 @@
 import pickle
-from comparative_1.stringDatabase import stringDatabase
-from comparative_1.game import *
+from stringDatabase import stringDatabase
+from game import *
 
 class guess(object):
-
+    gameO = game()
+    last_word  =''
     a= stringDatabase()
     word = a.readfile()
     game_list = []
@@ -39,13 +40,13 @@ class guess(object):
         if command == gequals:
             self.guess_word = input()
             self.final_list.append(self.guessing_word(self.word, self.guess_word))
-            print(self.final_list)
+            #print(self.final_list)
             #self.countLetter = 0
             #self.countGuess = 0
             self.calling()
         elif command == tequals:
             self.final_list.append(self.tell_me(self.word))
-            print(self.final_list)
+            #print(self.final_list)
             self.calling()
         elif command == lequals:
             self.guess_letter = input()
@@ -58,9 +59,10 @@ class guess(object):
             z = 0
             self.finalle = list(filter(None.__ne__, self.final_list))
             #print(self.finalle)
-            return self.finalle
+            #self.printList(self.finalle)
             # print(self.final_list)
-            # return self.final_list
+            #return self.finalle
+            self.gameO.finalPrint()
             #with open('info.pkl','rb')as i:
             #    for gammer in self.game_list:
             #        print("game\tword\tstatus\tBad Guesses\tMissed Letters\tscore")
@@ -102,6 +104,7 @@ class guess(object):
             self.countGuess = 0
             self.countLetter = 0
             self.unknownLetter = []
+            self.last_word = w
             self.word = self.a.readfile()
             #self.countGuess = 0
             #self.countLetter = 0
@@ -155,6 +158,7 @@ class guess(object):
                 self.totalLetter = 0
                 self.totalGuess = 0
                 self.score = 0
+                self.last_word = w
                 #self.score = self.score + 1
                 self.word = self.a.readfile()
                 return self.word_list
@@ -185,3 +189,6 @@ class guess(object):
         #     pickle.dump(game, o, pickle.HIGHEST_PROTOCOL)
         self.word = self.a.readfile()
         return self.word_list
+
+    def printList(self, l):
+        return l
