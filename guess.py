@@ -1,4 +1,3 @@
-
 import pickle
 from comparative_1.stringDatabase import stringDatabase
 from comparative_1.game import *
@@ -51,15 +50,17 @@ class guess(object):
         elif command == lequals:
             self.guess_letter = input()
             self.final_list.append(self.guessing_letter(self.word, self.guess_letter))
-            print(self.final_list)
+            #print(self.final_list)
             #self.countLetter = 0
             #self.countGuess = 0
             self.calling()
         elif command == qequals:
             z = 0
             self.finalle = list(filter(None.__ne__, self.final_list))
-            print(self.finalle)
+            #print(self.finalle)
             return self.finalle
+            # print(self.final_list)
+            # return self.final_list
             #with open('info.pkl','rb')as i:
             #    for gammer in self.game_list:
             #        print("game\tword\tstatus\tBad Guesses\tMissed Letters\tscore")
